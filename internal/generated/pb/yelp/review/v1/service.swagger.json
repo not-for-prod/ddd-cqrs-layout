@@ -1,0 +1,178 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Yelp",
+    "description": "Yelp application",
+    "version": "1.0"
+  },
+  "tags": [
+    {
+      "name": "Review",
+      "description": "review section"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/review": {
+      "get": {
+        "operationId": "ReviewService_ListReviews",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/yelp.review.v1.ListReviewsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "tags": [
+          "Review"
+        ]
+      },
+      "post": {
+        "operationId": "ReviewService_AddReview",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/yelp.review.v1.AddReviewResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/yelp.review.v1.AddReviewRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Review"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "google.protobuf.Any": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "google.rpc.Status": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/google.protobuf.Any"
+          }
+        }
+      }
+    },
+    "yelp.common.review.v1.ID": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "$ref": "#/definitions/yelp.common.v1.UUID"
+        }
+      }
+    },
+    "yelp.common.review.v1.Review": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/yelp.common.review.v1.ID"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "yelp.common.v1.UUID": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "yelp.review.v1.AddReviewRequest": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "yelp.review.v1.AddReviewResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/yelp.common.review.v1.ID"
+        }
+      }
+    },
+    "yelp.review.v1.ListReviewsResponse": {
+      "type": "object",
+      "properties": {
+        "reviews": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/yelp.common.review.v1.Review"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "jwt": {
+      "type": "apiKey",
+      "description": "jwt token for authentication",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "jwt": []
+    }
+  ]
+}

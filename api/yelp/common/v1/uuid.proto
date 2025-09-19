@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package yelp.common.v1;
+
+import "buf/validate/validate.proto";
+
+message UUID {
+  string value = 1 [(buf.validate.field).string.uuid = true];
+}

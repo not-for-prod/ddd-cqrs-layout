@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package yelp.common.review.v1;
+
+import "yelp/common/review/v1/id.proto";
+
+message Review {
+  ID id = 1;
+  string title = 2;
+  string description = 3;
+}

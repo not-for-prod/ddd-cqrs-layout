@@ -1,0 +1,152 @@
+configs:
+  tempo_config:
+    file: tempo.yaml
+  loki_config:
+    file: loki.yaml
+  prometheus_config:
+    file: prometheus.yaml
+  promtail_config:
+    file: promtail.yaml
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_DB: postgres
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+
+  tempo:
+    image: grafana/tempo:latest
+    container_name: tempo
+    restart: unless-stopped
+    configs:
+      - source: tempo_config # Ссылка на имя конфигурации, определенной выше
+        target: /etc/tempo/tempo.yaml
+    expose:
+      - 3200
+#    volumes:
+#      - tempo_data:/var/tempo
+    ports:
+      - "4317:4317"    # OTLP gRPC
+    command: [ "-config.file=/etc/tempo/tempo.yaml" ]
+
+  grafana:
+    image: grafana/grafana:11.5.8
+    container_name: grafana
+    restart: unless-stopped
+    user: 1000:1000
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_ANALYTICS_REPORTING_ENABLED=false
+      - GF_INSTALL_PLUGINS=victoriametrics-metrics-datasource
+#    volumes:
+#      - grafana:/var/lib/grafana
+
+  loki:
+    image: grafana/loki:latest
+    container_name: loki
+    user: 1000:1000
+    restart: unless-stopped
+    command: -config.file=/etc/loki/config.yaml
+    configs:
+      - source: loki_config # Ссылка на имя конфигурации, определенной выше
+        target: /etc/loki/config.yaml
+    ports:
+      - "3100:3100"
+#    volumes:
+#      - loki_data:/tmp/loki
+
+  promtail:
+    image: grafana/promtail:latest
+    container_name: promtail
+    restart: unless-stopped
+    configs:
+      - source: promtail_config # Ссылка на имя конфигурации, определенной выше
+        target: /etc/promtail/promtail.yaml
+#    volumes:
+#      - /var/log:/var/log                                       # читаем логи хоста
+#      - /var/lib/docker/containers:/var/lib/docker/containers   #docker
+    command: -config.file=/etc/promtail/promtail.yaml
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    restart: unless-stopped
+#    volumes:
+#      - /:/rootfs:ro
+#      - /var/run:/var/run:rw
+#      - /sys:/sys:ro
+#      - /var/lib/docker/:/var/lib/docker:ro
+    expose:
+      - 8080
+
+#  node-exporter:
+#    image: quay.io/prometheus/node-exporter:latest
+#    container_name: node_exporter
+#    restart: unless-stopped
+##    volumes:
+##      - /proc:/host/proc:ro
+##      - /sys:/host/sys:ro
+##      - /:/rootfs:ro
+#    command:
+#      - '--path.procfs=/host/proc'
+#      - '--path.sysfs=/host/sys'
+#    expose:
+#      - 9100
+
+  victoria-metrics:
+    image: victoriametrics/victoria-metrics:latest
+    container_name: victoria-metrics
+    ports:
+      - "8428:8428"  # Default port for HTTP API
+    configs:
+      - source: prometheus_config
+        target: /etc/vm/prometheus.yml
+#    volumes:
+#      - vm_data:/storage  # Save data to a volume
+#      - ./prometheus.yml:/etc/vm/prometheus.yml  # Mount file config
+    command:
+      - "-storageDataPath=/storage"  # Specify the path to store data
+      - "-retentionPeriod=30d"      # Retain data for 30 days
+      - "-promscrape.config=/etc/vm/prometheus.yml"  # Specify the path to the config file
+    restart: unless-stopped
+
+#volumes:
+#  grafana:
+#  loki_data:
+#  prometheus:
+
+#    volumes:
+#      - grafana:/var/lib/grafana
+
+#  backend:
+#     container_name: backend
+#     build:
+#       context: ./
+#       dockerfile: Dockerfile
+#     ports:
+#       - "8000:8000"
+#       - "9000:9000"
+#     depends_on:
+#       - postgres
+#       - tracing
+#     restart: always
+#     volumes:
+#       - ./config:/root/config
+##     command: ["sh", "-c", "ls -l /root"]
+#     command: ["./main"]

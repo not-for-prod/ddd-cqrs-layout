@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package yelp.common.review.v1;
+
+import "yelp/common/v1/uuid.proto";
+
+message ID {
+  yelp.common.v1.UUID value = 1;
+}
