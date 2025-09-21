@@ -8,4 +8,5 @@ type ListReviewRequest struct {
 
 type ListReviewResponse struct {
 	Reviews []review.Review
+	HasMore bool
 }

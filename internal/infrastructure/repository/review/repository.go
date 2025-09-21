@@ -1,9 +1,7 @@
-package review
+package reviewrepository
 
 import (
 	trmsqlx "github.com/avito-tech/go-transaction-manager/sqlx"
-	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/jackc/pgx/v5/stdlib"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -12,9 +10,9 @@ type Repository struct {
 	ctxGetter *trmsqlx.CtxGetter
 }
 
-func NewRepository(pool *pgxpool.Pool) *Repository {
+func New(db *sqlx.DB) *Repository {
 	return &Repository{
-		db:        sqlx.NewDb(stdlib.OpenDBFromPool(pool), "pgx"),
+		db:        db,
 		ctxGetter: trmsqlx.DefaultCtxGetter,
 	}
 }

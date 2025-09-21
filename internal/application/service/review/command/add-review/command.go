@@ -1,4 +1,4 @@
-package add_review
+package addreview
 
 import (
 	"context"
@@ -26,7 +26,11 @@ type Handler struct {
 	txManager        txManager
 }
 
-func New() *Handler {
+func NewCommandHandler(
+	reviewRepository reviewRepository,
+	clientRepository clientRepository,
+	txManager txManager,
+) *Handler {
 	return &Handler{}
 }
 

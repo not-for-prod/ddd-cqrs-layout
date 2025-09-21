@@ -1,14 +1,15 @@
-package review
+package reviewrepository
 
 import (
 	"context"
 
-	"github.com/samber/lo"
-	"yelp/internal/application/service/yelp/dto"
+	"yelp/internal/application/service/review/dto"
 	"yelp/internal/domain/entity/review"
 	"yelp/internal/infrastructure/repository/review/model"
 	"yelp/internal/infrastructure/repository/review/query"
 	"yelp/internal/pkg/prospan"
+
+	"github.com/samber/lo"
 )
 
 func (r *Repository) List(

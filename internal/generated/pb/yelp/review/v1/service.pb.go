@@ -219,8 +219,8 @@ const file_yelp_review_v1_service_proto_rawDesc = "" +
 	"/v1/review\x12j\n" +
 	"\vListReviews\x12\".yelp.review.v1.ListReviewsRequest\x1a#.yelp.review.v1.ListReviewsResponse\"\x12\x82\xd3\xe4\x93\x02\f\x12\n" +
 	"/v1/review\x1a\x1b\x92A\x18\n" +
-	"\x06Review\x12\x0ereview sectionB\x99\x02\x92Af\x12\x1d\n" +
-	"\x04Yelp\x12\x10Yelp application2\x031.0Z:\n" +
+	"\x06Review\x12\x0ereview sectionB\xa0\x02\x92Am\x12$\n" +
+	"\x04Yelp\x12\x17Yelp review application2\x031.0Z:\n" +
 	"8\n" +
 	"\x03jwt\x121\b\x02\x12\x1cjwt token for authentication\x1a\rAuthorization \x02b\t\n" +
 	"\a\n" +
