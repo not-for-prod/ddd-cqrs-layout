@@ -112,13 +112,16 @@
       "type": "object",
       "properties": {
         "id": {
-          "$ref": "#/definitions/yelp.common.review.v1.ID"
+          "$ref": "#/definitions/yelp.common.review.v1.ID",
+          "description": "Identificatior."
         },
         "title": {
-          "type": "string"
+          "type": "string",
+          "description": "Review title."
         },
         "description": {
-          "type": "string"
+          "type": "string",
+          "description": "Review description."
         }
       }
     },

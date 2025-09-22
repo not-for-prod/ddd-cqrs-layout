@@ -4,7 +4,7 @@ import (
 	"context"
 	"log/slog"
 
-	expirationworker "yelp/internal/application/woker/expiration"
+	expirationworker "yelp/internal/application/worker/expiration"
 	review_service_server "yelp/internal/delivery/api/reviewserviceserver"
 	reviewv1 "yelp/internal/generated/pb/yelp/review/v1"
 	reviewrepository "yelp/internal/infrastructure/repository/review"
@@ -39,8 +39,8 @@ func runYelpReviewService(lc fx.Lifecycle, shutdowner fx.Shutdowner, svc *review
 	)
 }
 
-func runExpirationWorker(lc fx.Lifecycle, _ reviewrepository.Repository) {
-	workerPool := expirationworker.New(nil)
+func runExpirationWorker(lc fx.Lifecycle, repo *reviewrepository.Repository) {
+	workerPool := expirationworker.New(repo)
 	lc.Append(
 		fx.Hook{
 			OnStart: func(ctx context.Context) error {

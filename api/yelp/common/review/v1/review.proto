@@ -5,7 +5,12 @@ package yelp.common.review.v1;
 import "yelp/common/review/v1/id.proto";
 
 message Review {
+  // Identificatior.
   ID id = 1;
+
+  // Review title.
   string title = 2;
+
+  // Review description.
   string description = 3;
 }
