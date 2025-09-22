@@ -1,7 +1,7 @@
 package internal
 
 import (
-	"yelp/internal/application/service/review"
+	reviewservice "yelp/internal/application/service/review"
 	reviewServiceServer "yelp/internal/delivery/api/reviewserviceserver"
 	reviewrepository "yelp/internal/infrastructure/repository/review"
 

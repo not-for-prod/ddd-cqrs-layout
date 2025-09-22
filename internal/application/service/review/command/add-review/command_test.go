@@ -1,4 +1,4 @@
-package addreview
+package addreview_test
 
 import (
 	"context"
@@ -11,12 +11,13 @@ import (
 
 type TestSuite struct {
 	suite.Suite
+
 	cmd *Handler
 }
 
 func (suite *TestSuite) SetupSuite() {
 	repo := &reviewRepositoryMock{
-		AddFunc: func(ctx context.Context, reviewMoqParam review.Review) error {
+		AddFunc: func(_ context.Context, _ review.Review) error {
 			return nil
 		},
 	}

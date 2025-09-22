@@ -56,3 +56,9 @@ generate:
 
 implgen:
 	implgen --src internal/generated/pb/yelp/review/v1/service_grpc.pb.go --interface-name ReviewServiceServer --dst internal/delivery/api
+
+lint:
+	golangci-lint --config golangci.yaml run
+
+fmt:
+	golangci-lint --config golangci.yaml fmt

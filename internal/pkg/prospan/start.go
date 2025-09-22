@@ -15,6 +15,7 @@ type ProSpan struct {
 	trace.Span
 }
 
+//nolint:spancheck // its others
 func Start(ctx context.Context) (context.Context, ProSpan) {
 	ctx, span := otel.Tracer("").Start(ctx, autoname.GetRuntimeFunc(initialSkipFrames))
 	return ctx, ProSpan{span}

@@ -12,10 +12,10 @@ import (
 func initLogger(lc fx.Lifecycle) {
 	lc.Append(
 		fx.Hook{
-			OnStart: func(ctx context.Context) error {
+			OnStart: func(_ context.Context) error {
 				return nil
 			},
-			OnStop: func(ctx context.Context) error {
+			OnStop: func(_ context.Context) error {
 				return nil
 			},
 		},
@@ -25,10 +25,10 @@ func initLogger(lc fx.Lifecycle) {
 func initTracer(lc fx.Lifecycle) {
 	lc.Append(
 		fx.Hook{
-			OnStart: func(ctx context.Context) error {
+			OnStart: func(_ context.Context) error {
 				return nil
 			},
-			OnStop: func(ctx context.Context) error {
+			OnStop: func(_ context.Context) error {
 				return nil
 			},
 		},
@@ -38,10 +38,10 @@ func initTracer(lc fx.Lifecycle) {
 func initDB(lc fx.Lifecycle) *sqlx.DB {
 	lc.Append(
 		fx.Hook{
-			OnStart: func(ctx context.Context) error {
+			OnStart: func(_ context.Context) error {
 				return nil
 			},
-			OnStop: func(ctx context.Context) error {
+			OnStop: func(_ context.Context) error {
 				return nil
 			},
 		},

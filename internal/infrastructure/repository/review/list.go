@@ -3,7 +3,7 @@ package reviewrepository
 import (
 	"context"
 
-	"yelp/internal/application/service/review/dto"
+	applicationdto "yelp/internal/application/service/review/dto"
 	"yelp/internal/domain/entity/review"
 	"yelp/internal/infrastructure/repository/review/model"
 	"yelp/internal/infrastructure/repository/review/query"
@@ -29,7 +29,7 @@ func (r *Repository) List(
 
 	return applicationdto.ListReviewResponse{
 		Reviews: lo.Map(
-			reviews, func(item model.Review, index int) review.Review {
+			reviews, func(item model.Review, _ int) review.Review {
 				return item.ToDomain()
 			},
 		),

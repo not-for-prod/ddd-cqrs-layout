@@ -9,16 +9,20 @@ import (
 	"golang.org/x/sync/errgroup"
 )
 
-type Worker struct{}
+type Worker struct {
+	reviewRepository reviewRepository
+}
 
-func New() *Worker {
-	return &Worker{}
+func New(reviewRepository reviewRepository) *Worker {
+	return &Worker{
+		reviewRepository: reviewRepository,
+	}
 }
 
 func (w *Worker) Run(ctx context.Context) error {
 	group, ctx := errgroup.WithContext(ctx)
 
-	for i := 0; i < config.GetInstance().ExpirationWorker.Count; i++ {
+	for range config.GetInstance().ExpirationWorker.Count {
 		group.Go(
 			func() error {
 				w.work(ctx)

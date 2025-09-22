@@ -1,7 +1,7 @@
 package validator
 
 import (
-	"log"
+	"fmt"
 	"sync"
 
 	validator "github.com/go-playground/validator/v10"
@@ -12,8 +12,8 @@ const (
 )
 
 var (
-	once     sync.Once
-	validate *validator.Validate
+	once     sync.Once           //nolint:gochecknoglobals // no need
+	validate *validator.Validate //nolint:gochecknoglobals // no need
 )
 
 func GetInstance() *validator.Validate {
@@ -23,7 +23,7 @@ func GetInstance() *validator.Validate {
 				// register custom example
 				err := validator.New().RegisterValidation(pin, validatePin)
 				if err != nil {
-					log.Fatalf("error registering custom validation: %s", err)
+					panic(fmt.Sprintf("failed to validate pin: %s", err.Error()))
 				}
 
 				validate = validator.New()

@@ -1,4 +1,4 @@
-package review_service_server
+package reviewserviceserver
 
 type Implementation struct {
 }

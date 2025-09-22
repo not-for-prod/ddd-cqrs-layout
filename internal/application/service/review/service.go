@@ -1,9 +1,9 @@
 package reviewservice
 
 import (
-	"yelp/internal/application/service/review/command/add-review"
-	"yelp/internal/application/service/review/query/list-reviews"
-	"yelp/internal/infrastructure/repository/review"
+	addreview "yelp/internal/application/service/review/command/add-review"
+	listreviews "yelp/internal/application/service/review/query/list-reviews"
+	reviewrepository "yelp/internal/infrastructure/repository/review"
 
 	"github.com/avito-tech/go-transaction-manager/trm/manager"
 )

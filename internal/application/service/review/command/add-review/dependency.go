@@ -1,4 +1,4 @@
-package addreview
+package addreview_test
 
 import (
 	"context"

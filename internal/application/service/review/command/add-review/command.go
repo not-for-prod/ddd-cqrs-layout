@@ -1,4 +1,4 @@
-package addreview
+package addreview_test
 
 import (
 	"context"
@@ -31,7 +31,11 @@ func NewCommandHandler(
 	clientRepository clientRepository,
 	txManager txManager,
 ) *Handler {
-	return &Handler{}
+	return &Handler{
+		reviewRepository: reviewRepository,
+		clientRepository: clientRepository,
+		txManager:        txManager,
+	}
 }
 
 func (h *Handler) Execute(ctx context.Context, cmd Command) (Result, error) {

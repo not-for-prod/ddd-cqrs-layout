@@ -7,24 +7,27 @@ import (
 	expirationworker "yelp/internal/application/woker/expiration"
 	review_service_server "yelp/internal/delivery/api/reviewserviceserver"
 	reviewv1 "yelp/internal/generated/pb/yelp/review/v1"
+	reviewrepository "yelp/internal/infrastructure/repository/review"
 
 	"github.com/not-for-prod/clay/server"
 	"go.uber.org/fx"
 )
 
+const (
+	port = 8000
+)
+
 func runYelpReviewService(lc fx.Lifecycle, shutdowner fx.Shutdowner, svc *review_service_server.Implementation) {
-	serviceServer := server.NewServer(12345)
+	serviceServer := server.NewServer(port)
 
 	lc.Append(
 		fx.Hook{
-			OnStart: func(ctx context.Context) error {
+			OnStart: func(_ context.Context) error {
 				go func() {
 					err := serviceServer.Run(reviewv1.NewReviewServiceServiceDesc(svc))
 					if err != nil {
 						_ = shutdowner.Shutdown(fx.ExitCode(1))
 					}
-
-					return
 				}()
 
 				return nil
@@ -36,8 +39,8 @@ func runYelpReviewService(lc fx.Lifecycle, shutdowner fx.Shutdowner, svc *review
 	)
 }
 
-func runExpirationWorker(lc fx.Lifecycle) {
-	workerPool := expirationworker.New()
+func runExpirationWorker(lc fx.Lifecycle, _ reviewrepository.Repository) {
+	workerPool := expirationworker.New(nil)
 	lc.Append(
 		fx.Hook{
 			OnStart: func(ctx context.Context) error {
@@ -56,7 +59,7 @@ func runExpirationWorker(lc fx.Lifecycle) {
 
 				go func() {
 					if err := workerPool.Run(workerCtx); err != nil {
-						slog.Error("expiration worker exited with error", err)
+						slog.Error("expiration worker exited with error", "error", err.Error())
 					}
 				}()
 
