@@ -34,6 +34,12 @@ This project demonstrates a **Domain-Driven Design (DDD)** approach with **CQRS 
 ## Prerequisites
 
 ```shell
+brew install golangci-lint
+brew install pre-commit
+pre-commit install -c pre-commit.yaml
+```
+
+```shell
 go install github.com/not-for-prod/implgen@latest
 go install github.com/not-for-prod/clay/cmd/protoc-gen-goclay@latest
 go install github.com/matryer/moq@latest
